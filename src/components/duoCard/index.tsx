@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View } from 'react-native';
+import { DuoInfo } from '../DuoInfo';
 
-const index = () => {
+import { styles } from './styles';
+
+export function DuoCard() {
   return (
-    <View>
-      <Text>index</Text>
+    <View style={styles.container}>
+      <DuoInfo />
     </View>
-  )
+  );
 }
-
-export default index

@@ -11,6 +11,7 @@ import { THEME } from '../../theme';
 
 import { Background } from '../../components/Background';
 import { Heading } from '../../components/Heading';
+import { DuoCard } from '../../components/DuoCard';
 
 export function Game() {
   const route = useRoute();
@@ -42,7 +43,9 @@ export function Game() {
             style={styles.banner} resizeMode="cover" />
 
             <Heading title={game.title} subtitle='Conecte-se e começe a jogar!'/>
-
+			
+			      <DuoCard/>
+			
         </SafeAreaView>
     </Background>
   );
