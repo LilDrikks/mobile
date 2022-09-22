@@ -13,16 +13,24 @@ import { THEME } from '../../theme';
 
 import { Background } from '../../components/Background';
 import { Heading } from '../../components/Heading';
-import { AdsProps, DuoCard } from '../../components/duoCard';
+import { AdsProps, DuoCard } from '../../components/DuoCard';
+import { DuoMatch } from '../../components/DuoMatch';
 
 
 export function Game() {
+  const [discord, setDiscord] = useState('')
+  const [modal, setModal] = useState(false)
   const [ads, setAds] = useState<AdsProps[]>([])
+
+  async function getDiscord(adId: string) {
+    const discord = await api.get(`/ads/${adId}/discord`)
+    setDiscord(discord.data.discord)
+  }
+
   useEffect(() => {
     async function getAds() {
       const response = await api.get(`/games/${game.id}/ads`)
       setAds(response.data)
-      console.log(ads)
     }
     getAds()
   }, [])
@@ -62,12 +70,23 @@ export function Game() {
             contentContainerStyle={ads.length > 0 ? styles.contentList : styles.contentList2}
             data={ads}
             keyExtractor={item => item.id}
-            renderItem={({item}) => (<DuoCard data={item} onConnect={()=>{}} />)}
+            renderItem={({item}) => (<DuoCard data={item} onConnect={()=>{
+              setModal(true)
+              getDiscord(item.id)
+            }} />)}
             horizontal
             showsHorizontalScrollIndicator={false}
             ListEmptyComponent={() => (<Text style={styles.notAds}>Não há anúncios publicado!</Text>)}
             />
-			
+
+        <DuoMatch
+          closeModal={() => setModal(false)}
+          transparent
+          statusBarTranslucent
+          animationType='fade'
+          visible={modal}
+          discord={discord}
+        />
         </SafeAreaView>
     </Background>
   );
